@@ -1,0 +1,7 @@
+name "Dennis Arimi"
+student_id "V00908180"
+email "mwirigiarimi@gmail.com"
+term "2022-05"
+course "SENG475"
+section "T01"
+assignment "cpp_project"
