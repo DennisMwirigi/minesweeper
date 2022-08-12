@@ -1,28 +1,25 @@
 #pragma once
 
-levels
+class Level
 {
-    beginner
+    enum class EASY
     {
-        rows = 8;
-        columns = 8;
-        mines = 10;
-        // currentHighScore *;
-    }
+        ROWS = 9,
+        COLUMNS = 9,
+        MINES = 10,
+    };
 
-    intermediate
+    enum class HARD
     {
-        Rows = 16;
-        Columns = 16;
-        mines = 40;
-        // currentHighScore *;
-    }
+        ROWS = 16,
+        COLUMNS = 16,
+        MINES = 40,
+    };
 
-    expert
+    enum class EXPERT
     {
-        rows = 16;
-        columns = 30;
-        mines = 99;
-        // currentHighScore *;
-    }
-}
+        ROWS = 16,
+        COLUMNS = 30,
+        MINES = 99,
+    };
+};
