@@ -92,7 +92,7 @@ void Draw::drawOpenCellNumMines(int x, int y, int minesAdjacent)
             glColor3f(0.3f, 0.3f, 0.3f);
             break;
         }
-        glRasterPos2f(x * CELL_SIZE + (15 - 9) / 2 + 1, (y + 1) * CELL_SIZE - 1);
+        glRasterPos2f(x * CELL_SIZE + (15 - 5) / 2 + 1, (y + 1) * CELL_SIZE - 5);
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '0' + minesAdjacent);
     }
 }
