@@ -1,5 +1,5 @@
-#include "../include/draw.hpp"
 #include "../include/definitions.hpp"
+#include "../include/draw.hpp"
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glut.h>

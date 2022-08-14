@@ -1,25 +1,31 @@
 #pragma once
 
-class Level
+struct Level
 {
-    enum class EASY
+    struct EASY
     {
-        ROWS = 9,
-        COLUMNS = 9,
-        MINES = 10,
+        const int ROWS = 9;
+        const int COLUMNS = 9;
+        const int MINES = 10;
     };
 
-    enum class HARD
+    struct HARD
     {
-        ROWS = 16,
-        COLUMNS = 16,
-        MINES = 40,
+        const int ROWS = 16;
+        const int COLUMNS = 16;
+        const int MINES = 40;
     };
 
-    enum class EXPERT
+    struct EXPERT
     {
-        ROWS = 16,
-        COLUMNS = 30,
-        MINES = 99,
+        const int ROWS = 16;
+        const int COLUMNS = 30;
+        const int MINES = 99;
     };
+
+    EASY easy;
+    HARD hard;
+    EXPERT expert;
 };
+
+static const int CELL_SIZE = 16;

@@ -3,8 +3,11 @@
 #include <GL/glut.h>
 #include <iostream>
 
+#include "../include/definitions.hpp"
+#include "../include/game.hpp"
 #include "../include/draw.hpp"
 
+Game game;
 Draw draw;
 
 void display()
@@ -14,7 +17,7 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
-    draw.drawBoard();
+    game.draw();
 
     glutSwapBuffers();
     glFlush();
@@ -25,7 +28,7 @@ void reshape(int w, int h)
     glViewport(0, 0, (GLsizei)w, (GLsizei)h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, draw.COLUMNS * draw.CELL_SIZE, draw.ROWS * draw.CELL_SIZE, 0, -1.0, 1.0);
+    glOrtho(0, game.COLUMNS * CELL_SIZE, game.ROWS * CELL_SIZE, 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -35,7 +38,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 
     glutInitWindowPosition(100, 120);
-    glutInitWindowSize(draw.COLUMNS * 30, draw.ROWS * 30);
+    glutInitWindowSize(game.COLUMNS * 30, game.ROWS * 30);
 
     glutCreateWindow("Minesweeper");
 
