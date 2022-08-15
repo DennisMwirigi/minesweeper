@@ -1,5 +1,7 @@
 #include <iostream>
 #include <ctime>
+#include <tuple>
+#include <vector>
 #include "../include/game.hpp"
 #include "../include/draw.hpp"
 
@@ -42,18 +44,11 @@ void Game::draw()
             case OPENED:
                 if (!cell[x][y].hasMine)
                 {
-                    int minesAdjacent = 0;
-                    for (int yy = y - 1; yy <= y + 1; ++yy)
-                        for (int xx = x - 1; xx <= x + 1; ++xx)
-                        {
-                            if ((xx == x && yy == y) ||
-                                xx < 0 || xx >= COLUMNS ||
-                                yy < 0 || yy >= ROWS)
-                                continue;
-                            if (cell[xx][yy].hasMine)
-                                ++minesAdjacent;
-                        }
+                    int minesAdjacent = numAdjacentMines(x, y);
                     d.drawOpenCellNumMines(x, y, minesAdjacent);
+
+                    if (!minesAdjacent)
+                        openAdjacent(x, y);
 
                     if (checkWin())
                         d.gameWin();
@@ -104,6 +99,23 @@ void Game::flag(int x, int y)
     }
 }
 
+int Game::numAdjacentMines(int x, int y)
+{
+    int minesAdjacent = 0;
+    for (int yy = y - 1; yy <= y + 1; ++yy)
+        for (int xx = x - 1; xx <= x + 1; ++xx)
+        {
+            if ((xx == x && yy == y) ||
+                xx < 0 || xx >= COLUMNS ||
+                yy < 0 || yy >= ROWS)
+                continue;
+            if (cell[xx][yy].hasMine)
+                ++minesAdjacent;
+        }
+
+    return minesAdjacent;
+}
+
 bool Game::checkWin()
 {
     int count = 0;
@@ -117,6 +129,48 @@ bool Game::checkWin()
     }
 
     if ((ROWS * COLUMNS) - count == 10)
+        return true;
+
+    return false;
+}
+
+void Game::openAdjacent(int x, int y)
+{
+    if (!inbounds(x, y))
+        return;
+    if (cell[x][y].checked)
+        return;
+    if (cell[x][y].hasMine)
+        return;
+
+    cell[x][y].checked = true;
+    cell[x][y].state = State::OPENED;
+
+    int minesAdjacent = numAdjacentMines(x, y);
+    if (minesAdjacent > 0)
+    {
+        cell[x][y].state = State::OPENED;
+        return;
+    }
+
+    std::vector<std::tuple<int, int>> adjacentCells{std::tuple<int, int>{0, 1},
+                                                    std::tuple<int, int>{0, -1},
+                                                    std::tuple<int, int>{1, 0},
+                                                    std::tuple<int, int>{-1, 0},
+                                                    std::tuple<int, int>{1, 1},
+                                                    std::tuple<int, int>{1, -1},
+                                                    std::tuple<int, int>{-1, 1},
+                                                    std::tuple<int, int>{-1, -1}};
+
+    for (std::vector<std::tuple<int, int>>::iterator i = adjacentCells.begin(); i != adjacentCells.end(); ++i)
+    {
+        openAdjacent(x + std::get<0>(*i), y + std::get<1>(*i));
+    }
+}
+
+bool Game::inbounds(int x, int y)
+{
+    if (x >= 0 && x < COLUMNS && y >= 0 && y < ROWS)
         return true;
 
     return false;

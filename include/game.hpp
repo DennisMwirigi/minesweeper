@@ -25,13 +25,17 @@ public:
     void open(int x, int y);
     void openAllMines();
     void flag(int x, int y);
+    int numAdjacentMines(int x, int y);
     bool checkWin();
+    void openAdjacent(int x, int y);
+    bool inbounds(int x, int y);
 
 private:
     struct Cell
     {
         State state;
         bool hasMine;
+        bool checked;
     };
     Cell cell[COLUMNS][ROWS];
 };

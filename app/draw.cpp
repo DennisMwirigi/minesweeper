@@ -139,12 +139,6 @@ void Draw::gameOver(int rows, int columns)
 {
     glutMouseFunc(NULL);
 
-    float winHeight = static_cast<float>(glutGet(GLUT_WINDOW_HEIGHT));
-    float winWidth = static_cast<float>(glutGet(GLUT_WINDOW_WIDTH));
-
-    float boardWidth = static_cast<float>(columns * CELL_SIZE);
-    float boardHeight = static_cast<float>(rows * CELL_SIZE);
-
     glColor3f(0.0f, 0.0f, 0.0f);
     glBegin(GL_QUADS);
     glVertex2f(0, 3);
@@ -152,10 +146,6 @@ void Draw::gameOver(int rows, int columns)
     glVertex2f(120, 12);
     glVertex2f(0, 12);
     glEnd();
-
-    float Width = winWidth;
-    float MAP_SIZE = CELL_SIZE;
-    float Len = Width / MAP_SIZE;
 
     glColor3f(1.0f, 0.0f, 0.0f);
     drawText("G  A  M  E    O  V  E  R", 0, 10);
@@ -168,8 +158,8 @@ void Draw::gameWin()
     glColor3f(0.0f, 0.0f, 0.0f);
     glBegin(GL_QUADS);
     glVertex2f(0, 3);
-    glVertex2f(120, 3);
-    glVertex2f(120, 12);
+    glVertex2f(105, 3);
+    glVertex2f(105, 12);
     glVertex2f(0, 12);
     glEnd();
 
