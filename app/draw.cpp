@@ -6,6 +6,7 @@
 
 #include "../include/draw.hpp"
 
+// render closed cell image
 void Draw::drawClosedCell(int x, int y)
 {
     glColor3f(0.8f, 0.8f, 0.8f);
@@ -33,6 +34,7 @@ void Draw::drawClosedCell(int x, int y)
     glEnd();
 }
 
+// render opened cell image
 void Draw::drawOpenCell(int x, int y)
 {
     glColor3f(0.6f, 0.6f, 0.6f);
@@ -60,6 +62,7 @@ void Draw::drawOpenCell(int x, int y)
     glEnd();
 }
 
+// render opened hint cell
 void Draw::drawOpenCellNumMines(int x, int y, int minesAdjacent)
 {
     drawOpenCell(x, y);
@@ -97,6 +100,7 @@ void Draw::drawOpenCellNumMines(int x, int y, int minesAdjacent)
     }
 }
 
+// render flag image
 void Draw::drawFlag(int x, int y)
 {
     glColor3f(0.8f, 0.8f, 0.8f);
@@ -122,6 +126,7 @@ void Draw::drawFlag(int x, int y)
     glEnd();
 }
 
+// render mine image
 void Draw::drawMine(int x, int y)
 {
     drawOpenCell(x, y);
@@ -134,9 +139,10 @@ void Draw::drawMine(int x, int y)
     glEnd();
 }
 
+// render game over banner
 void Draw::gameOver()
 {
-    glutMouseFunc(NULL);
+    glutMouseFunc(NULL); // disable mouse interaction with game window because game has ended
 
     glColor3f(0.0f, 0.0f, 0.0f);
     glBegin(GL_QUADS);
@@ -150,9 +156,10 @@ void Draw::gameOver()
     drawText("G  A  M  E    O  V  E  R", 0, 10);
 }
 
+// render win banner
 void Draw::gameWin()
 {
-    glutMouseFunc(NULL);
+    glutMouseFunc(NULL); // disable mouse interaction with game window because game has ended
 
     glColor3f(0.0f, 0.0f, 0.0f);
     glBegin(GL_QUADS);
@@ -166,6 +173,7 @@ void Draw::gameWin()
     drawText("Y  O  U    W  I  N  !", 0, 10);
 }
 
+// util function to render text on screen
 void Draw::drawText(const char *text, int x, int y, int z)
 {
     glRasterPos3f(x, y, z);
