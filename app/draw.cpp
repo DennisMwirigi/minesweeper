@@ -32,9 +32,9 @@ void Draw::drawClosedCell(int x, int y)
     glEnd();
 }
 
-void Draw::drawOpenCell(int x, int y, float *cellColor)
+void Draw::drawOpenCell(int x, int y)
 {
-    glColor3f(cellColor[0], cellColor[1], cellColor[2]);
+    glColor3f(0.6f, 0.6f, 0.6f);
     glBegin(GL_QUADS);
     glVertex2f(x * CELL_SIZE, y * CELL_SIZE);
     glVertex2f((x + 1) * CELL_SIZE, y * CELL_SIZE);
@@ -61,7 +61,7 @@ void Draw::drawOpenCell(int x, int y, float *cellColor)
 
 void Draw::drawOpenCellNumMines(int x, int y, int minesAdjacent)
 {
-    drawOpenCell(x, y, (float[3]){0.6f, 0.6f, 0.6f});
+    drawOpenCell(x, y);
     if (minesAdjacent > 0)
     {
         switch (minesAdjacent)
@@ -123,7 +123,7 @@ void Draw::drawFlag(int x, int y)
 
 void Draw::drawMine(int x, int y)
 {
-    drawOpenCell(x, y, (float[3]){0.6f, 0.6f, 0.6f});
+    drawOpenCell(x, y);
 
     glColor3f(0.0f, 0.0f, 0.0f);
     glBegin(GL_POLYGON);

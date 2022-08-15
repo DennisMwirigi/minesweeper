@@ -4,7 +4,7 @@ class Draw
 {
 public:
     void drawClosedCell(int x, int y);
-    void drawOpenCell(int x, int y, float *cellColor);
+    void drawOpenCell(int x, int y);
     void drawOpenCellNumMines(int x, int y, int minesAdjacent);
     void drawFlag(int x, int y);
     void drawMine(int x, int y);
