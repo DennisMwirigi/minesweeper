@@ -1,9 +1,10 @@
-#include "../include/draw.hpp"
+#include <cmath>
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <iostream>
-#include <cmath>
 #include <string.h>
+
+#include "../include/draw.hpp"
 
 void Draw::drawClosedCell(int x, int y)
 {

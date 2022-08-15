@@ -1,8 +1,9 @@
-#include <iostream>
 #include <ctime>
+#include <iostream>
+#include <limits>
 #include <tuple>
 #include <vector>
-#include <limits>
+
 #include "../include/game.hpp"
 #include "../include/draw.hpp"
 
