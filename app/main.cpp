@@ -55,8 +55,11 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 
-    glutInitWindowPosition(100, 120);
     glutInitWindowSize(game.COLUMNS * 30, game.ROWS * 30);
+
+    int xpos_init = (glutGet(GLUT_SCREEN_WIDTH)) ? (glutGet(GLUT_SCREEN_WIDTH) - glutGet(GLUT_INIT_WINDOW_WIDTH)) / 2 : 100;
+    int ypos_init = (glutGet(GLUT_SCREEN_HEIGHT)) ? (glutGet(GLUT_SCREEN_HEIGHT) - glutGet(GLUT_INIT_WINDOW_HEIGHT)) / 2 : 120;
+    glutInitWindowPosition(xpos_init, ypos_init);
 
     glutCreateWindow("Minesweeper");
 

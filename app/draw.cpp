@@ -5,6 +5,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <cmath>
+#include <string.h>
 
 void Draw::drawClosedCell(int x, int y)
 {
@@ -33,9 +34,9 @@ void Draw::drawClosedCell(int x, int y)
     glEnd();
 }
 
-void Draw::drawOpenCell(int x, int y)
+void Draw::drawOpenCell(int x, int y, float *cellColor)
 {
-    glColor3f(0.6f, 0.6f, 0.6f);
+    glColor3f(cellColor[0], cellColor[1], cellColor[2]);
     glBegin(GL_QUADS);
     glVertex2f(x * CELL_SIZE, y * CELL_SIZE);
     glVertex2f((x + 1) * CELL_SIZE, y * CELL_SIZE);
@@ -62,7 +63,7 @@ void Draw::drawOpenCell(int x, int y)
 
 void Draw::drawOpenCellNumMines(int x, int y, int minesAdjacent)
 {
-    drawOpenCell(x, y);
+    drawOpenCell(x, y, (float[3]){0.6f, 0.6f, 0.6f});
     if (minesAdjacent > 0)
     {
         switch (minesAdjacent)
@@ -124,7 +125,7 @@ void Draw::drawFlag(int x, int y)
 
 void Draw::drawMine(int x, int y)
 {
-    drawOpenCell(x, y);
+    drawOpenCell(x, y, (float[3]){0.6f, 0.6f, 0.6f});
 
     glColor3f(0.0f, 0.0f, 0.0f);
     glBegin(GL_POLYGON);
@@ -132,4 +133,53 @@ void Draw::drawMine(int x, int y)
         glVertex2f(x * CELL_SIZE + CELL_SIZE / 2 + 5.0f * cos(2 * 3.1415926 * i / 5),
                    y * CELL_SIZE + CELL_SIZE / 2 + 5.0f * sin(2 * 3.1415926 * i / 5));
     glEnd();
+}
+
+void Draw::gameOver(int rows, int columns)
+{
+    glutMouseFunc(NULL);
+
+    float winHeight = static_cast<float>(glutGet(GLUT_WINDOW_HEIGHT));
+    float winWidth = static_cast<float>(glutGet(GLUT_WINDOW_WIDTH));
+
+    float boardWidth = static_cast<float>(columns * CELL_SIZE);
+    float boardHeight = static_cast<float>(rows * CELL_SIZE);
+
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glBegin(GL_QUADS);
+    glVertex2f(0, 3);
+    glVertex2f(120, 3);
+    glVertex2f(120, 12);
+    glVertex2f(0, 12);
+    glEnd();
+
+    float Width = winWidth;
+    float MAP_SIZE = CELL_SIZE;
+    float Len = Width / MAP_SIZE;
+
+    glColor3f(1.0f, 0.0f, 0.0f);
+    drawText("G  A  M  E    O  V  E  R", 0, 10);
+}
+
+void Draw::gameWin()
+{
+    glutMouseFunc(NULL);
+
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glBegin(GL_QUADS);
+    glVertex2f(0, 3);
+    glVertex2f(120, 3);
+    glVertex2f(120, 12);
+    glVertex2f(0, 12);
+    glEnd();
+
+    glColor3f(0.0f, 1.0f, 0.0f);
+    drawText("Y  O  U    W  I  N  !", 0, 10);
+}
+
+void Draw::drawText(const char *text, int x, int y, int z)
+{
+    glRasterPos3f(x, y, z);
+    for (int i = 0; i < strlen(text); i++)
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[i]);
 }

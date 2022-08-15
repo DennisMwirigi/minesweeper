@@ -23,7 +23,9 @@ public:
     Game();
     void draw();
     void open(int x, int y);
+    void openAllMines();
     void flag(int x, int y);
+    bool checkWin();
 
 private:
     struct Cell

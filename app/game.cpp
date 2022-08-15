@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "../include/game.hpp"
 #include "../include/draw.hpp"
 
@@ -13,6 +14,7 @@ Game::Game()
         }
     }
 
+    srand(time(NULL));
     for (int i = 0; i < 10; ++i)
     {
         int x, y;
@@ -52,9 +54,16 @@ void Game::draw()
                                 ++minesAdjacent;
                         }
                     d.drawOpenCellNumMines(x, y, minesAdjacent);
+
+                    if (checkWin())
+                        d.gameWin();
                 }
                 else
+                {
                     d.drawMine(x, y);
+                    openAllMines();
+                    d.gameOver(ROWS, COLUMNS);
+                }
                 break;
             case FLAGGED:
                 d.drawFlag(x, y);
@@ -66,6 +75,18 @@ void Game::draw()
 void Game::open(int x, int y)
 {
     cell[x][y].state = OPENED;
+}
+
+void Game::openAllMines()
+{
+    for (int y = 0; y < ROWS; ++y)
+    {
+        for (int x = 0; x < COLUMNS; ++x)
+        {
+            if (cell[x][y].hasMine)
+                cell[x][y].state = State::OPENED;
+        }
+    }
 }
 
 void Game::flag(int x, int y)
@@ -81,4 +102,22 @@ void Game::flag(int x, int y)
         cell[x][y].state = CLOSED;
         break;
     }
+}
+
+bool Game::checkWin()
+{
+    int count = 0;
+    for (int y = 0; y < ROWS; ++y)
+    {
+        for (int x = 0; x < COLUMNS; ++x)
+        {
+            if (!cell[x][y].hasMine && cell[x][y].state != State::CLOSED)
+                count++;
+        }
+    }
+
+    if ((ROWS * COLUMNS) - count == 10)
+        return true;
+
+    return false;
 }
