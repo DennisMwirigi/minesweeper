@@ -2,6 +2,7 @@
 #include <ctime>
 #include <tuple>
 #include <vector>
+#include <limits>
 #include "../include/game.hpp"
 #include "../include/draw.hpp"
 
@@ -197,7 +198,7 @@ void Game::Init()
 {
     int level;
 
-    std::cout << "Welcome to Minsweeper!!\n\n";
+    std::cout << "\nWelcome to Minsweeper!!\n\n";
 
     std::cout << "The game has 3 different levels of difficulty from which to choose from, each with a different layout and number of mines.\n\n";
 
@@ -207,13 +208,32 @@ void Game::Init()
               << "\t- EXPERT  ==>  16 x 30 grid with 99 Mines\n\n";
 
     std::cout << "To choose your desired game difficulty:\n";
-    std::cout << "\tPress 0 for EASY \n";
-    std::cout << "\tPress 1 for HARD \n";
-    std::cout << "\tPress 2 for EXPERT \n";
+    std::cout << "\tPress 1 for EASY \n";
+    std::cout << "\tPress 2 for HARD \n";
+    std::cout << "\tPress 3 for EXPERT \n";
 
-    std::cout << "\nEnter difficulty level and press enter: ";
+    while (true)
+    {
+        std::cout << "\nEnter difficulty level and press enter: ";
 
-    std::cin >> level;
+        std::cin >> level;
+
+        if (!std::cin)
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Oops, that input is invalid.  Please try again.\n";
+        }
+        else if (level != 1 && level != 2 && level != 3)
+        {
+            std::cerr << "Oops, that input is invalid.  Please try again.\n";
+        }
+        else
+        {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            break;
+        }
+    }
 
     std::cout << "\nEnjoy!\n";
 

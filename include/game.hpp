@@ -1,8 +1,8 @@
 #pragma once
 
-#define EASY 0
-#define HARD 1
-#define EXPERT 2
+#define EASY 1
+#define HARD 2
+#define EXPERT 3
 
 class Game
 {
