@@ -26,6 +26,7 @@ public:
     bool inbounds(int x, int y);
     int getRows();
     int getColumns();
+    void setDifficulty();
     void Init();
 
 private:

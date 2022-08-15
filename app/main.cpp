@@ -49,6 +49,24 @@ void mouse(int button, int state, int x, int y)
     }
 }
 
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'Q':
+    case 'q':
+        exit(0);
+        break;
+
+    case 'R':
+    case 'r':
+        game.Init();
+        glutMouseFunc(mouse);
+        glutPostRedisplay();
+        break;
+    }
+}
+
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
@@ -65,6 +83,7 @@ int main(int argc, char **argv)
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutMouseFunc(mouse);
+    glutKeyboardFunc(keyboard);
 
     glClearColor(0, 0, 0, 1);
 

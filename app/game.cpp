@@ -8,28 +8,8 @@
 
 Game::Game()
 {
+    setDifficulty();
     Init();
-    for (int y = 0; y < ROWS; ++y)
-    {
-        for (int x = 0; x < COLUMNS; ++x)
-        {
-            cell[y * COLUMNS + x].state = State::CLOSED;
-            cell[y * COLUMNS + x].hasMine = false;
-            cell[y * COLUMNS + x].checked = false;
-        }
-    }
-
-    srand(time(NULL));
-    for (int i = 0; i < MINES; ++i)
-    {
-        int x, y;
-        do
-        {
-            x = rand() % COLUMNS;
-            y = rand() % ROWS;
-        } while (cell[y * COLUMNS + x].hasMine);
-        cell[y * COLUMNS + x].hasMine = true;
-    }
 }
 
 Game::~Game()
@@ -194,7 +174,7 @@ int Game::getColumns()
     return COLUMNS;
 }
 
-void Game::Init()
+void Game::setDifficulty()
 {
     int level;
 
@@ -211,6 +191,11 @@ void Game::Init()
     std::cout << "\tPress 1 for EASY \n";
     std::cout << "\tPress 2 for HARD \n";
     std::cout << "\tPress 3 for EXPERT \n";
+
+    std::cout << "\n## Please Note ##\n"
+              << "\tWhile playing the game, clicking on any of the following keys will cause the corresponding events to occur:\n"
+              << "\t\t- Q key ==> Quits the game and closes the game window\n"
+              << "\t\t- R key ==> Restarts the current level\n";
 
     while (true)
     {
@@ -261,4 +246,29 @@ void Game::Init()
     cell = new Cell[ROWS * COLUMNS];
 
     return;
+}
+
+void Game::Init()
+{
+    for (int y = 0; y < ROWS; ++y)
+    {
+        for (int x = 0; x < COLUMNS; ++x)
+        {
+            cell[y * COLUMNS + x].state = State::CLOSED;
+            cell[y * COLUMNS + x].hasMine = false;
+            cell[y * COLUMNS + x].checked = false;
+        }
+    }
+
+    srand(time(NULL));
+    for (int i = 0; i < MINES; ++i)
+    {
+        int x, y;
+        do
+        {
+            x = rand() % COLUMNS;
+            y = rand() % ROWS;
+        } while (cell[y * COLUMNS + x].hasMine);
+        cell[y * COLUMNS + x].hasMine = true;
+    }
 }
