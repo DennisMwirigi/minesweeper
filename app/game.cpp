@@ -7,26 +7,33 @@
 
 Game::Game()
 {
+    Init();
     for (int y = 0; y < ROWS; ++y)
     {
         for (int x = 0; x < COLUMNS; ++x)
         {
-            cell[x][y].state = State::CLOSED;
-            cell[x][y].hasMine = false;
+            cell[y * COLUMNS + x].state = State::CLOSED;
+            cell[y * COLUMNS + x].hasMine = false;
+            cell[y * COLUMNS + x].checked = false;
         }
     }
 
     srand(time(NULL));
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < MINES; ++i)
     {
         int x, y;
         do
         {
             x = rand() % COLUMNS;
             y = rand() % ROWS;
-        } while (cell[x][y].hasMine);
-        cell[x][y].hasMine = true;
+        } while (cell[y * COLUMNS + x].hasMine);
+        cell[y * COLUMNS + x].hasMine = true;
     }
+}
+
+Game::~Game()
+{
+    delete[] cell;
 }
 
 void Game::draw()
@@ -36,13 +43,13 @@ void Game::draw()
     for (int y = 0; y < ROWS; ++y)
         for (int x = 0; x < COLUMNS; ++x)
         {
-            switch (cell[x][y].state)
+            switch (cell[y * COLUMNS + x].state)
             {
             case CLOSED:
                 d.drawClosedCell(x, y);
                 break;
             case OPENED:
-                if (!cell[x][y].hasMine)
+                if (!cell[y * COLUMNS + x].hasMine)
                 {
                     int minesAdjacent = numAdjacentMines(x, y);
                     d.drawOpenCellNumMines(x, y, minesAdjacent);
@@ -57,7 +64,7 @@ void Game::draw()
                 {
                     d.drawMine(x, y);
                     openAllMines();
-                    d.gameOver(ROWS, COLUMNS);
+                    d.gameOver();
                 }
                 break;
             case FLAGGED:
@@ -69,7 +76,7 @@ void Game::draw()
 
 void Game::open(int x, int y)
 {
-    cell[x][y].state = OPENED;
+    cell[y * COLUMNS + x].state = OPENED;
 }
 
 void Game::openAllMines()
@@ -78,23 +85,23 @@ void Game::openAllMines()
     {
         for (int x = 0; x < COLUMNS; ++x)
         {
-            if (cell[x][y].hasMine)
-                cell[x][y].state = State::OPENED;
+            if (cell[y * COLUMNS + x].hasMine)
+                cell[y * COLUMNS + x].state = State::OPENED;
         }
     }
 }
 
 void Game::flag(int x, int y)
 {
-    switch (cell[x][y].state)
+    switch (cell[y * COLUMNS + x].state)
     {
     case OPENED:
         break;
     case CLOSED:
-        cell[x][y].state = FLAGGED;
+        cell[y * COLUMNS + x].state = FLAGGED;
         break;
     case FLAGGED:
-        cell[x][y].state = CLOSED;
+        cell[y * COLUMNS + x].state = CLOSED;
         break;
     }
 }
@@ -109,7 +116,7 @@ int Game::numAdjacentMines(int x, int y)
                 xx < 0 || xx >= COLUMNS ||
                 yy < 0 || yy >= ROWS)
                 continue;
-            if (cell[xx][yy].hasMine)
+            if (cell[yy * COLUMNS + xx].hasMine)
                 ++minesAdjacent;
         }
 
@@ -123,12 +130,12 @@ bool Game::checkWin()
     {
         for (int x = 0; x < COLUMNS; ++x)
         {
-            if (!cell[x][y].hasMine && cell[x][y].state != State::CLOSED)
+            if (!cell[y * COLUMNS + x].hasMine && cell[y * COLUMNS + x].state != State::CLOSED)
                 count++;
         }
     }
 
-    if ((ROWS * COLUMNS) - count == 10)
+    if ((ROWS * COLUMNS) - count == MINES)
         return true;
 
     return false;
@@ -138,18 +145,18 @@ void Game::openAdjacent(int x, int y)
 {
     if (!inbounds(x, y))
         return;
-    if (cell[x][y].checked)
+    if (cell[y * COLUMNS + x].checked)
         return;
-    if (cell[x][y].hasMine)
+    if (cell[y * COLUMNS + x].hasMine)
         return;
 
-    cell[x][y].checked = true;
-    cell[x][y].state = State::OPENED;
+    cell[y * COLUMNS + x].checked = true;
+    cell[y * COLUMNS + x].state = State::OPENED;
 
     int minesAdjacent = numAdjacentMines(x, y);
     if (minesAdjacent > 0)
     {
-        cell[x][y].state = State::OPENED;
+        cell[y * COLUMNS + x].state = State::OPENED;
         return;
     }
 
@@ -174,4 +181,64 @@ bool Game::inbounds(int x, int y)
         return true;
 
     return false;
+}
+
+int Game::getRows()
+{
+    return ROWS;
+}
+
+int Game::getColumns()
+{
+    return COLUMNS;
+}
+
+void Game::Init()
+{
+    int level;
+
+    std::cout << "Welcome to Minsweeper!!\n\n";
+
+    std::cout << "The game has 3 different levels of difficulty from which to choose from, each with a different layout and number of mines.\n\n";
+
+    std::cout << "They are:\n"
+              << "\t- EASY    ==>  9 x 9 grid with 10 Mines\n\n"
+              << "\t- HARD    ==>  16 x 16 grid with 40 Mines\n\n"
+              << "\t- EXPERT  ==>  16 x 30 grid with 99 Mines\n\n";
+
+    std::cout << "To choose your desired game difficulty:\n";
+    std::cout << "\tPress 0 for EASY \n";
+    std::cout << "\tPress 1 for HARD \n";
+    std::cout << "\tPress 2 for EXPERT \n";
+
+    std::cout << "\nEnter difficulty level and press enter: ";
+
+    std::cin >> level;
+
+    std::cout << "\nEnjoy!\n";
+
+    if (level == EASY)
+    {
+        ROWS = 9;
+        COLUMNS = 9;
+        MINES = 10;
+    }
+
+    if (level == HARD)
+    {
+        ROWS = 16;
+        COLUMNS = 16;
+        MINES = 40;
+    }
+
+    if (level == EXPERT)
+    {
+        ROWS = 16;
+        COLUMNS = 30;
+        MINES = 99;
+    }
+
+    cell = new Cell[ROWS * COLUMNS];
+
+    return;
 }

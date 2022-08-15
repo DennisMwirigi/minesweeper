@@ -1,8 +1,8 @@
 #pragma once
-// #include "definitions.hpp"
 
-// static Level l;
-// const static auto level = l.easy;
+#define EASY 0
+#define HARD 1
+#define EXPERT 2
 
 class Game
 {
@@ -14,13 +14,8 @@ public:
         FLAGGED
     };
 
-    enum
-    {
-        ROWS = 9,
-        COLUMNS = 9
-    };
-
     Game();
+    ~Game();
     void draw();
     void open(int x, int y);
     void openAllMines();
@@ -29,13 +24,21 @@ public:
     bool checkWin();
     void openAdjacent(int x, int y);
     bool inbounds(int x, int y);
+    int getRows();
+    int getColumns();
+    void Init();
 
 private:
+    int ROWS;
+    int COLUMNS;
+    int MINES;
+
     struct Cell
     {
         State state;
         bool hasMine;
         bool checked;
     };
-    Cell cell[COLUMNS][ROWS];
+
+    Cell *cell;
 };

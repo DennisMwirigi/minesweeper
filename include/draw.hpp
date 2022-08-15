@@ -8,7 +8,11 @@ public:
     void drawOpenCellNumMines(int x, int y, int minesAdjacent);
     void drawFlag(int x, int y);
     void drawMine(int x, int y);
-    void gameOver(int rows, int columns);
+    void gameOver();
     void gameWin();
     void drawText(const char *text, int x = 0, int y = 0, int z = 0);
+    int getCellSize();
+
+private:
+    int CELL_SIZE = 16;
 };

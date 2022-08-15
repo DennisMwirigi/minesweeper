@@ -1,4 +1,3 @@
-#include "../include/definitions.hpp"
 #include "../include/draw.hpp"
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -135,7 +134,7 @@ void Draw::drawMine(int x, int y)
     glEnd();
 }
 
-void Draw::gameOver(int rows, int columns)
+void Draw::gameOver()
 {
     glutMouseFunc(NULL);
 
@@ -172,4 +171,9 @@ void Draw::drawText(const char *text, int x, int y, int z)
     glRasterPos3f(x, y, z);
     for (int i = 0; i < strlen(text); i++)
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[i]);
+}
+
+int Draw::getCellSize()
+{
+    return CELL_SIZE;
 }

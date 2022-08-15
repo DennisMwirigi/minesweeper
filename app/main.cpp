@@ -3,7 +3,6 @@
 #include <GL/glut.h>
 #include <iostream>
 
-#include "../include/definitions.hpp"
 #include "../include/game.hpp"
 #include "../include/draw.hpp"
 
@@ -27,7 +26,7 @@ void reshape(int w, int h)
     glViewport(0, 0, (GLsizei)w, (GLsizei)h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, game.COLUMNS * CELL_SIZE, game.ROWS * CELL_SIZE, 0, -1.0, 1.0);
+    glOrtho(0, game.getColumns() * draw.getCellSize(), game.getRows() * draw.getCellSize(), 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     _w = w;
     _h = h;
@@ -40,10 +39,10 @@ void mouse(int button, int state, int x, int y)
         switch (button)
         {
         case GLUT_LEFT_BUTTON:
-            game.open(x / (_w / game.COLUMNS), y / (_h / game.ROWS));
+            game.open(x / (_w / game.getColumns()), y / (_h / game.getRows()));
             break;
         case GLUT_RIGHT_BUTTON:
-            game.flag(x / (_w / game.COLUMNS), y / (_h / game.ROWS));
+            game.flag(x / (_w / game.getColumns()), y / (_h / game.getRows()));
             break;
         }
         glutPostRedisplay();
@@ -55,7 +54,7 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 
-    glutInitWindowSize(game.COLUMNS * 30, game.ROWS * 30);
+    glutInitWindowSize(game.getColumns() * 30, game.getRows() * 30);
 
     int xpos_init = (glutGet(GLUT_SCREEN_WIDTH)) ? (glutGet(GLUT_SCREEN_WIDTH) - glutGet(GLUT_INIT_WINDOW_WIDTH)) / 2 : 100;
     int ypos_init = (glutGet(GLUT_SCREEN_HEIGHT)) ? (glutGet(GLUT_SCREEN_HEIGHT) - glutGet(GLUT_INIT_WINDOW_HEIGHT)) / 2 : 120;
