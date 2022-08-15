@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# a file demo that is a script containing an appropriate 
+# sequence of commands to run a demonstration of the software.
+# 
+# During installation, this script should be placed in the 
+# ${CMAKE_INSTALL_PREFIX}/bin directory (where ${CMAKE_INSTALL_PREFIX} 
+# denotes the value of the CMAKE_INSTALL_PREFIX variable of CMake). 
+# 
+# Any one of the following scripting languages may be used: 
+# Bourne Shell, Bash, Python, and Perl. 
+# 
+# The script must be compatible with the version of the applicable interpreter program (e.g., sh, bash, python, and perl) 
+# installed on the lab machines.
+
+# Print an error message and exit.
+panic()
+{
+	echo "ERROR: $@"
+	exit 1
+}
+
+# Get the directory in which the currently running script is located.
+cmd_dir=$(dirname "$0") || panic "cannot determine command directory"
+
+minesweeper_program="$cmd_dir/minesweeper"
+
+echo "Running minesweeper program"
+$minesweeper_program || panic "minesweeper program failed"
