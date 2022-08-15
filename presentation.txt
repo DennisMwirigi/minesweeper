@@ -1,3 +1,0 @@
-# Note: a file presentation.url not .txt
-
-a file presentation.url that contains a URL to be used to view the video presentation for the software. This f ile must contain only the URL on a single line. No other characters should appear in the file.
